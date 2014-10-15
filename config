@@ -1,0 +1,28 @@
+ngx_addon_name=ngx_http_kafka
+HTTP_MODULES="$HTTP_MODULES ngx_http_kafka_module"
+NGX_ADDON_SRCS="$NGX_ADDON_SRCS
+                $ngx_addon_dir/ngx_http_kafka_module.c \
+                $ngx_addon_dir/ngx_http_kafka_meta.c    \
+                $ngx_addon_dir/ngx_http_kafka_main.c    \
+                $ngx_addon_dir/ngx_http_kafka_broker.c    \
+                $ngx_addon_dir/ngx_http_kafka_topic.c    \
+                $ngx_addon_dir/ngx_http_kafka_buf.c    \
+                $ngx_addon_dir/ngx_http_kafka_upstream.c    \
+                $ngx_addon_dir/ngx_http_kafka_util.c    \
+                $ngx_addon_dir/ngx_http_kafka_lua.c    \
+                $ngx_addon_dir/debug.c"
+
+NGX_ADDON_DEPS="$NGX_ADDON_DEPS \
+                $ngx_addon_dir/ngx_http_kafka_module.h   \
+                $ngx_addon_dir/ngx_http_kafka_types.h   \
+                $ngx_addon_dir/ngx_http_kafka_common.h   \
+                $ngx_addon_dir/ngx_http_kafka_broker.h   \
+                $ngx_addon_dir/ngx_http_kafka_topic.h   \
+                $ngx_addon_dir/ngx_http_kafka_buf.h   \
+                $ngx_addon_dir/ngx_http_kafka_upstream.h   \
+                $ngx_addon_dir/ngx_http_kafka_util.h   \
+                $ngx_addon_dir/debug.h"
+
+have=NGX_KFK_LUA value=1 . auto/define
+have=NGX_KFK_STATUS value=1 . auto/define
+have=NGX_KFK_DEBUG value=1 . auto/define
