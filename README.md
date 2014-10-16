@@ -14,7 +14,7 @@ Table of Contents
 * [Synopsis](#synopsis)
 * [Description](#description)
 * [Directives](#directives)
-	* [kfk.metadata.broker.list](#kfk.metadata.broker.list)
+	* [kfk.metadata.broker.list](#kfkmetadatabrokerlist)
 	* [kfk.bootstrap.servers](#kfk.bootstrap.servers)
 	* [kfk.request.required.acks](#kfk.request.required.acks)
 	* [kfk.acks](#kfk.acks)
