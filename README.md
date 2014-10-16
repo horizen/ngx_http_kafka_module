@@ -45,7 +45,7 @@ Table of Contents
 	* [kafka_read_body](#kafka_read_body)
 	* [kafka](#kafka)
 * [API for ngx_lua](#api-for-ngx_lua)
-	* [kfk.log](#kfklog )
+	* [kfk.log](#api-for-ngx_lua)
 * [Embedded Variables](#embedded-variables)
 	* [$pending_msg](#$pending_msg)
 	* [$succ_msg](#$succ_msg)
