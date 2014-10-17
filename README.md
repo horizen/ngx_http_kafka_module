@@ -690,7 +690,7 @@ This module is not distributed with the Nginx source, configure with --add-modul
 ngx_http_kafka_module module support the following option:
 
 * NGX_KFK_STATUS this option Enable/Disable kafka status statistics
-* NGX_KFK_LUA this option Enable/Disable kafka ngx_lua api
+* NGX_KFK_LUA this option Enable/Disable kafka ngx_lua api, this option prerequire ngx_lua module
 * NGX_KFK_DEBUG this option Enable/Disable debug log
 
 you can config it by edit the config file
