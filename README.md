@@ -22,6 +22,7 @@ Table of Contents
 	* [kfk.timeout](#kfktimeout)
 	* [kfk.message.max.size](#kfkmessagemaxsize)
 	* [kfk.compression.codec](#kfkcompressioncodec)
+	* [kfk.compression.type](#kfkcompressiontype)
 	* [kfk.compressed.topics](#kfkcompressedtopics)
 	* [kfk.message.send.max.retries](#kfkmessagesendmaxretries)
 	* [kfk.retries](#kfkretries)
