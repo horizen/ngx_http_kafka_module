@@ -715,5 +715,6 @@ next step, i will code for support following directives:
 * [kfk.backpath](#kfk.backpath)
 * [kfk.send.buffer.bytes](#kfk.send.buffer.bytes)
 
+and support access_log push to kafka is in plan
 
 [Back to top](#table-of-contents)
