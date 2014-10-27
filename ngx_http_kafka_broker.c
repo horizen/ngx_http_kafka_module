@@ -252,15 +252,13 @@ ngx_http_kafka_broker_create_request(ngx_kfk_broker_t *broker)
 
         } while(q != last && out == NULL);
 
-		if (toppar && toppar->send_timer.timer_set) {
-			ngx_del_timer(&toppar->send_timer);
-		}
-
 		if (out == NULL) {
 			return;
 		}
 
-        debug(broker->log, "[kafka] out chain: %p", out->chain);
+		if (toppar && toppar->send_timer.timer_set) {
+			ngx_del_timer(&toppar->send_timer);
+		}
 
 		u->request_bufs = out->chain;
 
