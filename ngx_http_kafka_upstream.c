@@ -335,7 +335,7 @@ ngx_http_kafka_upstream_handler(ngx_event_t *ev)
     u = broker->upstream;
 
 #if (NGX_KFK_DEBUG)
-    debug(c->log, "[kafka] [%V:%ui] upstream event, write: %ui, ready: %ui",
+    debug(c->log, "[kafka] [%V:%ui] upstream event, write: %d, ready: %d",
     	  &broker->host, broker->port, ev->write, ev->ready);
 #endif
 
@@ -431,11 +431,13 @@ ngx_http_kafka_upstream_send_request(ngx_kfk_broker_t *broker,
     c->log->action = "sending request to kafka";
 
     do {
-		u->create_request(broker);
+        if (broker != broker->kfk->meta_broker || u->request_all_sent) {
+    		u->create_request(broker);
+        }
 
 #if (NGX_KFK_DEBUG)
-        debug(broker->log, "[kafka] [%V:%ui], meta query: %ud, "
-        	  "request bufs: %p, all_send: %ud", &broker->host,
+        debug(broker->log, "[kafka] [%V:%ui], meta query: %d, "
+        	  "request bufs: %p, all_send: %d", &broker->host,
         	  broker->port, broker->meta_query, u->request_bufs,
         	  u->request_all_sent);
 #endif
@@ -467,6 +469,11 @@ ngx_http_kafka_upstream_send_request(ngx_kfk_broker_t *broker,
 
 		rc = ngx_output_chain(&u->output, u->request_bufs);
 
+#if (NGX_KFK_DEBUG)
+        debug(broker->log, "[kafka] [%V:%ui] output chain response rc: %i", 
+              &broker->host, broker->port, rc);
+#endif
+
 		u->request_bufs = NULL;
 
 		if (rc == NGX_ERROR) {
@@ -491,6 +498,20 @@ ngx_http_kafka_upstream_send_request(ngx_kfk_broker_t *broker,
 		u->request_all_sent = 1;
 
 		if (broker == broker->kfk->meta_broker) {
+
+#if (NGX_KFK_DEBUG)
+            debug(broker->log, "[kafka] [%V:%ui] meta broker force to dummy handler",
+                    &broker->host, broker->port);
+#endif
+
+            if (ngx_handle_write_event(c->write, 0) != NGX_OK) {
+                u->socket_errno = ngx_socket_errno;
+                ngx_http_kafka_upstream_error(broker, u,
+                        NGX_KAFKA_SOCKET_ERROR);
+            }
+
+            u->write_event_handler = ngx_http_kafka_upstream_dummy_handler;
+
 			break;
 		}
 
@@ -535,7 +556,7 @@ ngx_http_kafka_upstream_process_response(ngx_kfk_broker_t *broker,
         n = c->recv(c, u->buffer.last, u->buffer.end - u->buffer.last);
 
 #if (NGX_KFK_DEBUG)
-        debug(broker->log, "[kafka] [%V:%ui] response rc: %i", 
+        debug(broker->log, "[kafka] [%V:%ui] recv response n: %i", 
               &broker->host, broker->port, n);
 #endif
 
