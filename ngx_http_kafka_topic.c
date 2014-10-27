@@ -187,7 +187,7 @@ ngx_http_kafka_toppar_free_to_out(ngx_kfk_toppar_t *toppar)
 		}
 	}
 
-	debug(buf->kfk->log, "[kafka] %ui messages to %V-%ui out buf", buf->cnt,
+	debug(buf->kfk->log, "[kafka] %i messages to %V-%ui out buf", buf->cnt,
           &toppar->topic->name, toppar->partition);
 #endif
 }
@@ -275,7 +275,12 @@ ngx_http_kafka_toppar_force_send(ngx_event_t *ev)
 		ngx_http_kafka_upstream_enable_write_event(broker, u);
 
 		u->send_request(broker, u);
-	}
+
+	} else {
+        if (toppar->out) {
+            ngx_add_timer(ev, toppar->kfk->cf->linger);
+        }
+    }
 }
 
 static void
