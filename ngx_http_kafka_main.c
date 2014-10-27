@@ -140,7 +140,7 @@ ngx_http_kafka_enq_buf(ngx_http_request_t *r, ngx_http_kafka_ctx_t *ctx)
 		ngx_add_timer(&ctx->toppar->send_timer, kmcf->linger);
 	}
 
-    return ngx_http_special_response_handler(r, NGX_OK);
+    return ngx_http_special_response_handler(r, NGX_HTTP_OK);
 }
 
 static ngx_int_t
